@@ -15,12 +15,32 @@
 
      <style>
         #map {height: 180px; }
+        .popup.image {
+            max-width:200px;
+            height: auto;
+
+        }
      </style>
   
 
 </head>
 <body>
+<h1>Basic Maps</h1>
  <div id="map"></div>
-    
 </body>
-</html>
+<script>
+
+  var map = L.map('map').setView([8.35998123639272, 124.86810152510171], 13);
+ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+var marker = L.marker([8.35998123639272, 124.86810152510171]).addTo(map);
+const crist = "<img src='https://newspapers.ph/2025/02/crist-brogizes-for-public-urination-video-featuring-quiboloys-poster/' class='poup-image'>";
+const popupContent = `${cristImage}<br><b>Hello World!</b><br>I am popup.`;
+
+marker.bindPopup(popupContent).openPopup();
+
+</script>
+</body>
