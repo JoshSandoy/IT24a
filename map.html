@@ -36,11 +36,28 @@
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-var marker = L.marker([8.35998123639272, 124.86810152510171]).addTo(map);
-const crist = "<img src='https://newspapers.ph/2025/02/crist-brogizes-for-public-urination-video-featuring-quiboloys-poster/' class='poup-image'>";
-const popupContent = `${cristImage}<br><b>Hello World!</b><br>I am popup.`;
+function initMap(mapDataUrl){
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
 
-marker.bindPopup(popupContent).openPopup();
+fetch(mapDataUrl)
+        .then(response => response.json())
+        .then(data =>{
+            data.forEach(pin=>{
+                const marker = L.marker([pin.lat,pin.lng]).addTo(map);
+                const img = `<img src='${pin.img}' class="popup-image">`;
+                marker.bindPopup(`${img}<br><b> ${pin.title} </b><br> ${pin.description}`);
+                
+                console.log(`${pin.name} Loaded ` +Date());
+            });
+        })
+        .catch(err=>console.error('Error loading JSON:',err));
+}
 
+document.addEventListener('DOMContentLoaded',()=>{
+    initMap('maps.json');
+})
 </script>
-</body>
+</html>
